@@ -47,9 +47,9 @@ public class TellopBad2027 extends LinearOpMode {
 
     // Flywheels
     private DcMotorEx flywheel1;
-    private DcMotorEx flywheel2;
+//    private DcMotorEx flywheel2;
 
-    private static final double FLYWHEEL_VELOCITY = 1625;
+    private static final double FLYWHEEL_VELOCITY = 1525;
 
     // Target selection
     private boolean manualTarget = false;
@@ -77,13 +77,13 @@ public class TellopBad2027 extends LinearOpMode {
         // --------------------------------
 
         flywheel1 = hardwareMap.get(DcMotorEx.class, "flywheel1");
-        flywheel2 = hardwareMap.get(DcMotorEx.class, "flywheel2");
+//        flywheel2 = hardwareMap.get(DcMotorEx.class, "flywheel2");
 
         flywheel1.setDirection(DcMotorSimple.Direction.REVERSE);
-        flywheel2.setDirection(DcMotorSimple.Direction.FORWARD);
+//        flywheel2.setDirection(DcMotorSimple.Direction.FORWARD);
 
         flywheel1.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        flywheel2.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+//        flywheel2.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
         // --------------------------------
         // INITIALIZE PEDRO
@@ -267,13 +267,15 @@ public class TellopBad2027 extends LinearOpMode {
 
             if (gamepad1.y) {
 
-                flywheel1.setVelocity(FLYWHEEL_VELOCITY);
-                flywheel2.setVelocity(FLYWHEEL_VELOCITY);
+                if (flywheel1.getVelocity() > FLYWHEEL_VELOCITY - 40) {
+                    flywheel1.setVelocity(FLYWHEEL_VELOCITY);
+                } else {
+                    flywheel1.setPower(1);
+                }
 
             } else if (gamepad1.x) {
 
                 flywheel1.setVelocity(0);
-                flywheel2.setVelocity(0);
             }
 
             // --------------------------------
@@ -318,9 +320,6 @@ public class TellopBad2027 extends LinearOpMode {
             telemetry.addData("Flywheel 1 Target", FLYWHEEL_VELOCITY);
             telemetry.addData("Flywheel 1 Actual", flywheel1.getVelocity());
 
-            telemetry.addData("Flywheel 2 Target", FLYWHEEL_VELOCITY);
-            telemetry.addData("Flywheel 2 Actual", flywheel2.getVelocity());
-
             telemetry.update();
         }
 
@@ -329,7 +328,7 @@ public class TellopBad2027 extends LinearOpMode {
         // --------------------------------
 
         flywheel1.setVelocity(0);
-        flywheel2.setVelocity(0);
+//        flywheel2.setVelocity(0);
 
         intakeController.stop();
         driveController.stop();

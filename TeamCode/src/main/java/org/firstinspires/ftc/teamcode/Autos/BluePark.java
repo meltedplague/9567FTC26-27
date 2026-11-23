@@ -19,7 +19,7 @@ import org.firstinspires.ftc.teamcode.Controllers.TurretController;
 import org.firstinspires.ftc.teamcode.OpModeStorage;
 import org.firstinspires.ftc.teamcode.pedro.Constants;
 
-@Autonomous(name = "Park Auto", group = "Autonomous")
+@Autonomous(name = "blue Park Auto", group = "Autonomous")
 
 public class BluePark extends LinearOpMode {
 

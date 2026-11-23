@@ -12,7 +12,6 @@ import java.util.TreeMap;
 public class InterpolatingFlywheelController {
 
     private DcMotorEx flywheel1;
-    private DcMotorEx flywheel2;
 
     //todo IMPORTANT: Set this to encoder ticks per flywheel output revolution.
     private static final double MOTOR_TICKS_PER_REV = 1.0; // CHANGE THIS
@@ -31,13 +30,10 @@ public class InterpolatingFlywheelController {
     public InterpolatingFlywheelController(HardwareMap hardwareMap) {
 
         flywheel1 = hardwareMap.get(DcMotorEx.class, "flywheel1");
-        flywheel2 = hardwareMap.get(DcMotorEx.class, "flywheel2");
 
         flywheel1.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        flywheel2.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
         flywheel1.setDirection(DcMotorSimple.Direction.REVERSE);
-        flywheel2.setDirection(DcMotorSimple.Direction.FORWARD);
 
         // FLYWHEEL TUNING VALUES: Inches | RPM
         launchFlywheelSpeedMap.put(12.0, 1000.0);
@@ -75,7 +71,6 @@ public class InterpolatingFlywheelController {
                 targetRPM * MOTOR_TICKS_PER_REV / 60.0;
 
         flywheel1.setVelocity(targetTicksPerSecond);
-        flywheel2.setVelocity(targetTicksPerSecond);
 
     }
 
@@ -119,7 +114,6 @@ public class InterpolatingFlywheelController {
 
     public void stop() {
         flywheel1.setVelocity(0);
-        flywheel2.setVelocity(0);
         targetRPM = 0;
     }
 
@@ -130,15 +124,10 @@ public class InterpolatingFlywheelController {
     public double getTargetRPM() {
         return targetRPM;
     }
-
-    public double getActualRPM() {
-
-        double rpm1 = Math.abs(flywheel1.getVelocity())
-                * 60.0 / MOTOR_TICKS_PER_REV;
-
-        double rpm2 = Math.abs(flywheel2.getVelocity())
-                * 60.0 / MOTOR_TICKS_PER_REV;
-
-        return (rpm1 + rpm2) / 2.0;
-    }
+//
+//    public double getActualRPM() {
+//
+//        double rpm = Math.abs(flywheel1.getVelocity())
+//                * 60.0 / MOTOR_TICKS_PER_REV;
+//    }
 }

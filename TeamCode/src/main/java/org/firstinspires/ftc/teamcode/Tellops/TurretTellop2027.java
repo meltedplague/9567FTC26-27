@@ -331,7 +331,6 @@ public class TurretTellop2027 extends LinearOpMode {
 
             telemetry.addData("Target Velocity", regressionFlywheelController.getTargetVelocity());
             telemetry.addData("Flywheel 1 Actual", regressionFlywheelController.getFlywheel1Velocity());
-            telemetry.addData("Flywheel 2 Actual", regressionFlywheelController.getFlywheel2Velocity());
 
             telemetry.update();
         }

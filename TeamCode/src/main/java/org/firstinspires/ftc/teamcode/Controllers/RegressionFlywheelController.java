@@ -13,8 +13,6 @@ public class RegressionFlywheelController {
 
     private static final double RECOVERY_TOLERANCE = 50;
     private DcMotorEx flywheel1;
-    private DcMotorEx flywheel2;
-
     // =================================
     // REGRESSION EQUATION
     // =================================
@@ -37,13 +35,10 @@ public class RegressionFlywheelController {
     public RegressionFlywheelController(HardwareMap hardwareMap) {
 
         flywheel1 = hardwareMap.get(DcMotorEx.class, "flywheel1");
-        flywheel2 = hardwareMap.get(DcMotorEx.class, "flywheel2");
 
         flywheel1.setDirection(DcMotorSimple.Direction.REVERSE);
-        flywheel2.setDirection(DcMotorSimple.Direction.FORWARD);
 
         flywheel1.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        flywheel2.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
     }
 
     public void shootFromDistance(double distance) {
@@ -58,24 +53,18 @@ public class RegressionFlywheelController {
 
         if (targetVelocity <= 0) {
             flywheel1.setPower(0);
-            flywheel2.setPower(0);
             return;
         }
 
-        double averageVelocity =
-                (flywheel1.getVelocity() + flywheel2.getVelocity()) / 2.0;
-
-        double velocityError = targetVelocity - averageVelocity;
+        double velocityError = targetVelocity;
 
         if (velocityError > RECOVERY_TOLERANCE) {
 
             flywheel1.setPower(1.0);
-            flywheel2.setPower(1.0);
 
         } else {
 
             flywheel1.setVelocity(targetVelocity);
-            flywheel2.setVelocity(targetVelocity);
         }
     }
 
@@ -106,7 +95,6 @@ public class RegressionFlywheelController {
     public void stop() {
         targetVelocity = 0;
         flywheel1.setVelocity(0);
-        flywheel2.setVelocity(0);
     }
 
     public double getTargetVelocity() {
@@ -115,9 +103,5 @@ public class RegressionFlywheelController {
 
     public double getFlywheel1Velocity() {
         return flywheel1.getVelocity();
-    }
-
-    public double getFlywheel2Velocity() {
-        return flywheel2.getVelocity();
     }
 }
